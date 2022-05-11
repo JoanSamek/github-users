@@ -11,10 +11,7 @@
       @input="getUsers"
       :messages="foundUsers"
     />
-    <div class="text-center" v-if="loading">
-      <v-progress-circular indeterminate color="primary" />
-    </div>
-    <user-list :users="users.items" v-else-if="searchText" />
+    <user-list :users="users.items" :loading="loading" v-if="searchText" />
   </div>
 </template>
 <script>
