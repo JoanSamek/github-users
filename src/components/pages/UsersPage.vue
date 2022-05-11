@@ -14,7 +14,7 @@
   </div>
 </template>
 <script>
-import api from "../services/api.js";
+import api from "../../services/api.js";
 export default {
   name: "UserPage",
   data() {
