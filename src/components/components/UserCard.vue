@@ -1,7 +1,10 @@
 <template>
-  <div></div>
+  <v-card outlined tile><v-card-text> </v-card-text></v-card>
 </template>
 <script>
-export default {};
+export default {
+  name: "UserCard",
+  props: ["user"],
+};
 </script>
 <style lang=""></style>

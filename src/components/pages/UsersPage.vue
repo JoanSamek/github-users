@@ -11,12 +11,15 @@
       @input="getUsers"
       :messages="foundUsers"
     />
+    <user-list :users="users.items" v-if="searchText" />
   </div>
 </template>
 <script>
 import api from "../../services/api.js";
+import UserList from "../components/UserList";
 export default {
   name: "UserPage",
+  components: { UserList },
   data() {
     return {
       searchText: "",
