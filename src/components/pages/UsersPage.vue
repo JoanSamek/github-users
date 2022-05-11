@@ -11,7 +11,10 @@
       @input="getUsers"
       :messages="foundUsers"
     />
-    <user-list :users="users.items" v-if="searchText" />
+    <div class="text-center" v-if="loading">
+      <v-progress-circular indeterminate color="primary" />
+    </div>
+    <user-list :users="users.items" v-else-if="searchText" />
   </div>
 </template>
 <script>
@@ -24,6 +27,7 @@ export default {
     return {
       searchText: "",
       users: {},
+      loading: false,
     };
   },
   computed: {
@@ -35,11 +39,18 @@ export default {
   },
   methods: {
     getUsers() {
+      this.loading = true;
       let params = { q: this.searchText };
       api
         .get("search/users", { params })
-        .then((res) => (this.users = res.data))
-        .catch((err) => console.log(err));
+        .then((res) => {
+          this.users = res.data;
+          this.loading = false;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.loading = false;
+        });
     },
   },
 };
