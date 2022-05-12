@@ -16,12 +16,14 @@
             {{ item.name }}
           </td>
           <td class="text-right">
-            <span v-for="(statData, statName) in stats" :key="statName">
-              <v-icon large :color="statData.color" class="ml-6">
-                {{ statData.icon }}
-              </v-icon>
-              {{ statName }}: {{ statData.count }}
-            </span>
+            <div class="iconGrid">
+              <span v-for="(statData, statName) in stats" :key="statName">
+                <v-icon large :color="statData.color">
+                  {{ statData.icon }}
+                </v-icon>
+                {{ statName }}: {{ item[statData.count] }}
+              </span>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -38,18 +40,22 @@ export default {
       loading: true,
       repos: [],
       stats: {
-        stars: { icon: "mdi-star", color: "orange", count: 0 },
-        watchers: { icon: "mdi-eye", color: "blue", count: 0 },
-        comments: { icon: "mdi-comment", color: "green", count: 0 },
+        stars: { icon: "mdi-star", color: "orange", count: "stargazers_count" },
+        watchers: { icon: "mdi-eye", color: "blue", count: "watchers_count" },
+        comments: {
+          icon: "mdi-comment",
+          color: "green",
+          count: "comments_count",
+        },
         commits: {
           icon: "mdi-source-commit",
           color: "purple",
-          count: 0,
+          count: "commits_count",
         },
         open_issues: {
           icon: "mdi-alert-circle-outline",
           color: "red",
-          count: 0,
+          count: "open_issues_count",
         },
       },
     };
@@ -65,6 +71,35 @@ export default {
       .then((res) => {
         this.repos = res.data;
         this.loading = false;
+        this.repos.forEach((element) => {
+          //fetch commits list for repo
+          api
+            .get(
+              element.commits_url
+                .replace("https://api.github.com/", "")
+                .replace("{/sha}", "")
+            )
+            .then((commits) => {
+              console.log(commits.data);
+              element["commits_count"] = commits.data.length;
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+          //fetch comments list for repo
+          api
+            .get(
+              element.comments_url
+                .replace("https://api.github.com/", "")
+                .replace("{/number}", "")
+            )
+            .then((comments) => {
+              element["comments_count"] = comments.data.length;
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -77,5 +112,10 @@ export default {
 .hoverUrl:hover {
   cursor: pointer;
   text-decoration: underline;
+}
+.iconGrid {
+  display: inline-grid;
+  grid-template-columns: repeat(5, 140px);
+  justify-items: start;
 }
 </style>

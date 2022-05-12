@@ -8,7 +8,7 @@
       clearable
       clear-icon="mdi-cancel"
       class="w-100"
-      @input="getUsers"
+      @change="getUsers"
       :messages="foundUsers"
     />
     <user-list :users="users.items" :loading="loading" v-if="searchText" />
@@ -29,9 +29,10 @@ export default {
   },
   computed: {
     foundUsers() {
+      if (this.loading) return "Fetching data, please wait...";
       return this.searchText && this.users.total_count
         ? `Found ${this.users.total_count} users.`
-        : undefined;
+        : "Press enter to search.";
     },
   },
   methods: {
