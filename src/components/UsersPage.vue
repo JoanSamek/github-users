@@ -9,9 +9,14 @@
       clear-icon="mdi-cancel"
       class="w-100"
       @change="getUsers"
+      @input="setTyping"
       :messages="foundUsers"
     />
-    <user-list :users="users.items" :loading="loading" v-if="searchText" />
+    <user-list
+      :users="users.items"
+      :loading="loading"
+      v-if="!typing && searchText"
+    />
   </div>
 </template>
 <script>
@@ -25,18 +30,20 @@ export default {
       searchText: "",
       users: {},
       loading: false,
+      typing: false,
     };
   },
   computed: {
     foundUsers() {
+      if (this.typing) return "Press enter to search.";
+      if (!this.searchText) return "";
       if (this.loading) return "Fetching data, please wait...";
-      return this.searchText && this.users.total_count
-        ? `Found ${this.users.total_count} users.`
-        : "Press enter to search.";
+      return `Found ${Number(this.users.total_count)} users.`;
     },
   },
   methods: {
     getUsers() {
+      this.typing = false;
       this.loading = true;
       let params = { q: this.searchText };
       api
@@ -49,6 +56,9 @@ export default {
           console.log(err);
           this.loading = false;
         });
+    },
+    setTyping() {
+      this.typing = true;
     },
   },
 };
