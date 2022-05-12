@@ -1,14 +1,16 @@
 <template>
   <v-app>
     <v-main>
-      <router-view />
+      <users-page />
     </v-main>
   </v-app>
 </template>
 
 <script>
+import UsersPage from "./components/UsersPage.vue";
 export default {
   name: "App",
+  components: { UsersPage },
   data() {
     return {};
   },

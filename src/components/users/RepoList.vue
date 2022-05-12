@@ -21,7 +21,7 @@
                 <v-icon large :color="statData.color">
                   {{ statData.icon }}
                 </v-icon>
-                {{ statName }}: {{ item[statData.count] }}
+                {{ statName }}: {{ item[statData.valueKey] }}
               </span>
             </div>
           </td>
@@ -40,22 +40,30 @@ export default {
       loading: true,
       repos: [],
       stats: {
-        stars: { icon: "mdi-star", color: "orange", count: "stargazers_count" },
-        watchers: { icon: "mdi-eye", color: "blue", count: "watchers_count" },
+        stars: {
+          icon: "mdi-star",
+          color: "orange",
+          valueKey: "stargazers_count",
+        },
+        watchers: {
+          icon: "mdi-eye",
+          color: "blue",
+          valueKey: "watchers_count",
+        },
         comments: {
           icon: "mdi-comment",
           color: "green",
-          count: "comments_count",
+          valueKey: "comments_count",
         },
         commits: {
           icon: "mdi-source-commit",
           color: "purple",
-          count: "commits_count",
+          valueKey: "commits_count",
         },
         open_issues: {
           icon: "mdi-alert-circle-outline",
           color: "red",
-          count: "open_issues_count",
+          valueKey: "open_issues_count",
         },
       },
     };
@@ -80,7 +88,6 @@ export default {
                 .replace("{/sha}", "")
             )
             .then((commits) => {
-              console.log(commits.data);
               element["commits_count"] = commits.data.length;
             })
             .catch((err) => {

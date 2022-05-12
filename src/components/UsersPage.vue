@@ -15,8 +15,8 @@
   </div>
 </template>
 <script>
-import api from "../../services/api.js";
-import UserList from "../components/UserList";
+import api from "../services/api.js";
+import UserList from "./users/UserList";
 export default {
   name: "UserPage",
   components: { UserList },
