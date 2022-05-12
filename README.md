@@ -1,24 +1,29 @@
 # github-users
 
 ## Project setup
+
 ```
 yarn install
 ```
 
+Alternatively
+
+```
+npm install
+```
+
 ### Compiles and hot-reloads for development
+
 ```
 yarn serve
 ```
 
-### Compiles and minifies for production
+Alternatively
+
 ```
-yarn build
+npm run serve
 ```
 
-### Lints and fixes files
-```
-yarn lint
-```
+### Open compiled web app
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Go to [Local Host](http://localhost:8080/).
