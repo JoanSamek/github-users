@@ -16,14 +16,19 @@
             {{ item.name }}
           </td>
           <td class="text-right">
-            <div class="iconGrid">
-              <span v-for="(statData, statName) in stats" :key="statName">
+            <v-row>
+              <v-col
+                v-for="(statData, statName) in stats"
+                :key="statName"
+                style="white-space: nowrap"
+                class="text-right"
+              >
                 <v-icon large :color="statData.color">
                   {{ statData.icon }}
                 </v-icon>
                 {{ statName }}: {{ item[statData.valueKey] }}
-              </span>
-            </div>
+              </v-col>
+            </v-row>
           </td>
         </tr>
       </tbody>
